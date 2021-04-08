@@ -6,7 +6,8 @@ import Unit from "./pages/Unit";
 import Client from "./pages/Client";
 import History from "./pages/History";
 import Service from "./pages/Service";
-import CreateClient from './pages/CreateClient'
+import CreateClient from "./pages/CreateClient";
+import CreateUnit from "./pages/CreateUnit";
 
 const App = () => {
   return (
@@ -18,8 +19,9 @@ const App = () => {
 
         <Switch>
           <Route path="/unit" component={Unit} exact />
+          <Route path="/createunit" component={CreateUnit} exact />
           <Route path="/client" component={Client} exact />
-          <Route path="/createclient" component={CreateClient} exact/>
+          <Route path="/createclient" component={CreateClient} exact />
           <Route path="/history" component={History} exact />
           <Route path="/service" component={Service} exact />
         </Switch>
