@@ -28,7 +28,6 @@ const CreateClient = () => {
         <div className="container">
             <form onSubmit={onSubmit}>
                 <div></div>
-                <div></div>
                 <div className="form-group">
                     <label>First Name</label>
                     <input type="text"className="form-control" onChange={onChange} name="firstName" value={formData.firstName}/>
