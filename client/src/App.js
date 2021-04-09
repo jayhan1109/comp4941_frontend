@@ -8,6 +8,8 @@ import History from "./pages/History";
 import Service from "./pages/Service";
 import CreateClient from "./pages/CreateClient";
 import CreateUnit from "./pages/CreateUnit";
+import CreateService from "./pages/CreateService";
+import CreateHistory from "./pages/CreateHistory";
 
 const App = () => {
   return (
@@ -23,7 +25,9 @@ const App = () => {
           <Route path="/client" component={Client} exact />
           <Route path="/createclient" component={CreateClient} exact />
           <Route path="/history" component={History} exact />
+          <Route path="/createHistory" component={CreateHistory} exact />
           <Route path="/service" component={Service} exact />
+          <Route path="/createService" component={CreateService} exact />
         </Switch>
       </div>
     </BrowserRouter>
