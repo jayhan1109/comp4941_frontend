@@ -9,10 +9,10 @@ function CreateUnit() {
   const [isOccupied, setIsOccupied] = useState(false);
   const history = useHistory();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    axios.post("http://localhost:30735/api/Units", {
+    await axios.post("http://localhost:30735/api/Units", {
       price: price,
       appliance: appliance,
       isOccupied: isOccupied,
