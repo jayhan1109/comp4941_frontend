@@ -41,7 +41,7 @@ const CreateHistory = () => {
           axios.post('http://localhost:30735/api/HistoryServices', service);
         })
     })
-    // history.push('/history');
+    history.push('/history');
   }
 
   useEffect(() => {
