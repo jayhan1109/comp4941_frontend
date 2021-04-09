@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import moment from "moment";
+
 const History = () => {
   const [histories, setHistories] = useState();
+
   useEffect(() => {
     const getHistory = async () => {
       const { data } = await axios.get("http://localhost:30735/api/Histories");
@@ -14,8 +17,9 @@ const History = () => {
   return (
     <>
       <Link to="/createHistory"> Rent out</Link>
-      <table>
+      <table className="table">
         <thead>
+          {console.log("clients: ", histories)}
           <tr>
             <th scope="col">History Id</th>
             <th scope="col">Unit Id</th>
@@ -26,15 +30,17 @@ const History = () => {
           </tr>
         </thead>
         <tbody>
-          {histories.map((history) => (
-            <tr key={history.historyId}>
-              <td>{history.unitId}</td>
-              <td>{history.clientId}</td>
-              <td>{history.startDate}</td>
-              <td>{history.endDate}</td>
-              <td>{history.totalPrice}</td>
-            </tr>
-          ))}
+          {histories &&
+            histories.map((history) => (
+              <tr key={history.historyId}>
+                <td>{history.historyId}</td>
+                <td>{history.unitId}</td>
+                <td>{history.clientId}</td>
+                <td>{moment(history.startDate).format("MMMM Do , YYYY")}</td>
+                <td>{moment(history.endDate).format("MMMM Do , YYYY")}</td>
+                <td>{history.totalPrice}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </>
