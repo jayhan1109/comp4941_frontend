@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 
 const CreateService = () => {
-  useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:30735/api/Units")
-        .then((res) => console.log(res));
-    } catch (error) {}
-  }, []);
+  const [units, setUnits] = useState(null);
+  const history = useHistory();
   const [formData, setFormData] = useState({
     price: 0,
     serviceName: "",
-    unitId: 0,
+    unitId: "Choose unit #",
   });
-  const history = useHistory();
+  const [dropDown, setDropDown] = useState("Choose unit #");
+
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -31,6 +29,15 @@ const CreateService = () => {
     }
     history.push("/service");
   };
+
+  useEffect(() => {
+    try {
+      axios
+        .get("http://localhost:30735/api/Units")
+        .then((res) => setUnits(res.data));
+    } catch (error) {}
+  }, []);
+
   return (
     <div className="container">
       <form onSubmit={onSubmit}>
@@ -47,7 +54,7 @@ const CreateService = () => {
         <div className="form-group">
           <label> Service Name </label>
           <input
-            type="number"
+            type="text"
             className="form-control"
             onChange={onChange}
             name="serviceName"
@@ -55,15 +62,29 @@ const CreateService = () => {
           />
         </div>
         <div className="form-group">
-          <label> unitId </label>
-          <input
-            type="number"
-            className="form-control"
-            onChange={onChange}
-            name="unitId"
-            value={formData.unitId}
-          />
+          <label> Choose your unit # </label>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              {dropDown}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {units &&
+                units.map((unit) => (
+                  <Dropdown.Item
+                    key={unit.unitId}
+                    onClick={(e) => {
+                      setDropDown(`Unit # ${unit.unitId}`);
+                      setFormData({ ...formData, unitId: unit.unitId });
+                    }}
+                  >
+                    Unit # {unit.unitId}
+                  </Dropdown.Item>
+                ))}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
+        <button className="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
   );
