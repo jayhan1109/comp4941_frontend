@@ -5,6 +5,7 @@ import moment from "moment";
 
 const History = () => {
   const [histories, setHistories] = useState();
+  const [historyServices, setHistoryServices] = useState(null);
 
   useEffect(() => {
     const getHistory = async () => {
@@ -13,6 +14,9 @@ const History = () => {
       console.log(data);
     };
     getHistory();
+    axios.get('http://localhost:30735/api/HistoryServices').then((res) => {
+      setHistoryServices(res.data);
+    })
   }, []);
   return (
     <>
@@ -24,6 +28,7 @@ const History = () => {
             <th scope="col">History Id</th>
             <th scope="col">Unit Id</th>
             <th scope="col">Client Id</th>
+            <th scope="col">Services</th>
             <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
             <th scope="col">Total Price</th>
@@ -36,6 +41,8 @@ const History = () => {
                 <td>{history.historyId}</td>
                 <td>{history.unitId}</td>
                 <td>{history.clientId}</td>
+                <td>{historyServices && 
+                  historyServices.filter(item => item.historyId === history.historyId).map(historyService => (<div>{historyService.serviceName}</div>))}</td>
                 <td>{moment(history.startDate).format("MMMM Do , YYYY")}</td>
                 <td>{moment(history.endDate).format("MMMM Do , YYYY")}</td>
                 <td>{history.totalPrice}</td>
