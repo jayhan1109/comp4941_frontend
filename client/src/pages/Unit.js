@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Form, Modal, Button } from "react-bootstrap";
 
 function Unit() {
   const [units, setUnits] = useState(null);
+  const [price, setPrice] = useState(0);
+  const [appliance, setAppliance] = useState(false);
+  const [isOccupied, setIsOccupied] = useState(false);
+  const [unitId, setunitId] = useState(null);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     const getUnits = async () => {
@@ -12,7 +19,7 @@ function Unit() {
       setUnits(data);
     };
     getUnits();
-  }, []);
+  }, [units]);
 
   const removeUnit = async (unitId) => {
     await axios.delete(`http://localhost:30735/api/Units/${unitId}`).then((response) => {
@@ -24,9 +31,15 @@ function Unit() {
     });
   };
 
-  // const editUnit = () => {
-  //   axios.put("http://localhost:30735/api/Units", )
-  // }
+  const editUnit = () => {
+    axios.put(`http://localhost:30735/api/Units/${unitId}`, {
+      price: price,
+      appliance: appliance,
+      isOccupied: isOccupied,
+      unitId: unitId,
+    });
+    handleClose();
+  };
 
   if (units) {
     return (
@@ -50,14 +63,66 @@ function Unit() {
                 <td>{unit.unitId}</td>
                 <td>{unit.price}</td>
                 <td>{unit.appliance === false ? <p>No</p> : <p>Yes</p>}</td>
-                <td>
-                  {unit.isOccupied === false ? <p>No</p> : <p>Yes</p>}
-                </td> <Button>Edit</Button>{" "}
+                <td>{unit.isOccupied === false ? <p>No</p> : <p>Yes</p>}</td>{" "}
+                <Button
+                  onClick={(e) => {
+                    handleShow();
+                    setunitId(unit.unitId);
+                  }}
+                >
+                  Edit
+                </Button>
                 <Button onClick={() => removeUnit(unit.unitId)}>Delete</Button>
               </tr>
             ))}
           </tbody>
         </table>
+        <Modal show={show} onHide={handleClose}>
+          <form onSubmit={editUnit}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Unit</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <div className="form-group">
+                <label>Price</label>
+                <Form.Control
+                  placeholder="Price"
+                  name="price"
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={price}
+                />
+              </div>
+              <div className="form-group">
+                <Form.Check
+                  type="checkbox"
+                  label="Appliance"
+                  name="appliance"
+                  checked={appliance}
+                  onChange={() => setAppliance(!appliance)}
+                />
+              </div>
+              <div className="form-group">
+                <Form.Check
+                  type="checkbox"
+                  label="isOccupied"
+                  name="isOccupied"
+                  checked={isOccupied}
+                  onChange={() => setIsOccupied(!isOccupied)}
+                />
+              </div>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Save changes
+              </Button>
+            </Modal.Footer>
+          </form>
+        </Modal>
       </div>
     );
   } else {
