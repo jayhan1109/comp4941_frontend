@@ -4,7 +4,7 @@ import { Navbar, Nav } from "react-bootstrap";
 
 const Navigation = () => {
   return (
-    <Navbar bg="dart" expand="lg">
+    <Navbar bg="dark" variant="dark">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav>
