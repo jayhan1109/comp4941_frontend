@@ -45,9 +45,6 @@ function Unit() {
     return (
       <div>
         <Link to="/createunit">Create unit</Link>
-        <br />
-
-        <br />
         <table className="table">
           <thead>
             <tr>
@@ -55,6 +52,7 @@ function Unit() {
               <th scope="col">Price</th>
               <th scope="col">Appliance</th>
               <th scope="col">Occupied</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -64,7 +62,12 @@ function Unit() {
                 <td>{unit.price}</td>
                 <td>{unit.appliance === false ? <p>No</p> : <p>Yes</p>}</td>
                 <td>{unit.isOccupied === false ? <p>No</p> : <p>Yes</p>}</td>{" "}
+                <Button className="mt-2" variant="light" onClick={() => removeUnit(unit.unitId)}>
+                  Delete
+                </Button>
                 <Button
+                  className="mt-2 mr-2"
+                  variant="dark"
                   onClick={(e) => {
                     handleShow();
                     setunitId(unit.unitId);
@@ -72,7 +75,6 @@ function Unit() {
                 >
                   Edit
                 </Button>
-                <Button onClick={() => removeUnit(unit.unitId)}>Delete</Button>
               </tr>
             ))}
           </tbody>
@@ -87,11 +89,18 @@ function Unit() {
               <div className="form-group">
                 <label>Price</label>
                 <Form.Control
+                  required
+                  pattern="[0-9]*"
                   placeholder="Price"
                   name="price"
                   onChange={(e) => setPrice(e.target.value)}
                   value={price}
                 />
+                {price < 0 ? (
+                  <>
+                    <p style={{ color: "red" }}>The price value cannot be negative.</p>
+                  </>
+                ) : null}
               </div>
               <div className="form-group">
                 <Form.Check
@@ -114,10 +123,10 @@ function Unit() {
             </Modal.Body>
 
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button variant="light" onClick={handleClose}>
                 Close
               </Button>
-              <Button variant="primary" type="submit">
+              <Button variant="dark" type="submit">
                 Save changes
               </Button>
             </Modal.Footer>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 function CreateUnit() {
@@ -11,7 +11,6 @@ function CreateUnit() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     await axios.post("http://localhost:30735/api/Units", {
       price: price,
       appliance: appliance,
@@ -22,15 +21,24 @@ function CreateUnit() {
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit}>
         <div className="form-group">
-          <label>Price</label>
+          <label>
+            <b>Price</b>
+          </label>
           <Form.Control
+            required
+            pattern="[0-9]*"
             placeholder="Price"
             name="price"
             onChange={(e) => setPrice(e.target.value)}
             value={price}
           />
+          {price < 0 ? (
+            <>
+              <p style={{ color: "red" }}>The price value cannot be negative.</p>
+            </>
+          ) : null}
         </div>
         <div className="form-group">
           <Form.Check
@@ -50,10 +58,10 @@ function CreateUnit() {
             onChange={() => setIsOccupied(!isOccupied)}
           />
         </div>
-        <button variant="primary" type="submit">
+        <Button variant="dark" type="submit">
           Submit
-        </button>
-      </form>
+        </Button>
+      </Form>
     </div>
   );
 }
