@@ -61,7 +61,7 @@ function Unit() {
                 <td>{unit.unitId}</td>
                 <td>{unit.price}</td>
                 <td>{unit.appliance === false ? <p>No</p> : <p>Yes</p>}</td>
-                <td>{unit.isOccupied === false ? <p>No</p> : <p>Yes</p>}</td>{" "}
+                <td>{unit.isOccupied === false ? <p>No</p> : <p>Yes</p>}</td>
                 <Button className="mt-2" variant="light" onClick={() => removeUnit(unit.unitId)}>
                   Delete
                 </Button>
