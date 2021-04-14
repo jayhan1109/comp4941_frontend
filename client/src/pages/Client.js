@@ -9,6 +9,8 @@ const Client = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [firstNameErrorMsg, setFirstNameErrorMsg] = useState("");
+  const [lastNameErrorMsg, setLastNameErrorMsg] = useState("");
 
   useEffect(() => {
     const getClients = async () => {
@@ -23,9 +25,17 @@ const Client = () => {
   };
 
   const onChange = (e) => {
+    setFirstNameErrorMsg("");
+    setLastNameErrorMsg("");
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (formData.firstName === "") {
+      setFirstNameErrorMsg("Name cannot be empty.");
+    }
+    if (formData.lastName === "") {
+      setLastNameErrorMsg("Name cannot be empty.");
+    }
   };
-  const [formData, setFormData] = useState({ firstName: "", lastName: "", clientId: '' });
+  const [formData, setFormData] = useState({ firstName: "", lastName: "", clientId: "" });
 
   const onEdit = (e) => {
     e.preventDefault();
@@ -67,7 +77,7 @@ const Client = () => {
                         ...formData,
                         firstName: client.firstName,
                         lastName: client.lastName,
-                        clientId: client.clientId
+                        clientId: client.clientId,
                       });
                     }}
                   >
@@ -88,6 +98,7 @@ const Client = () => {
               <div className="form-group">
                 <label>First Name</label>
                 <input
+                  required
                   type="text"
                   className="form-control"
                   onChange={onChange}
@@ -95,9 +106,11 @@ const Client = () => {
                   value={formData.firstName}
                 />
               </div>
+              <p style={{ color: "red" }}>{firstNameErrorMsg}</p>
               <div className="form-group">
                 <label>Last Name</label>
                 <input
+                  required
                   type="text"
                   className="form-control"
                   onChange={onChange}
@@ -105,6 +118,7 @@ const Client = () => {
                   value={formData.lastName}
                 />
               </div>
+              <p style={{ color: "red" }}>{lastNameErrorMsg}</p>
             </Modal.Body>
 
             <Modal.Footer>

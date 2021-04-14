@@ -12,18 +12,20 @@ const CreateService = () => {
     unitId: "Choose unit #",
   });
   const [dropDown, setDropDown] = useState("Choose unit #");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const onChange = (e) => {
+    setErrorMsg("");
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (formData.serviceName === "") {
+      setErrorMsg("Service cannot be empty.");
+    }
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:30735/api/Services",
-        formData
-      );
+      const res = await axios.post("http://localhost:30735/api/Services", formData);
     } catch (error) {
       console.error(error);
     }
@@ -32,9 +34,7 @@ const CreateService = () => {
 
   useEffect(() => {
     try {
-      axios
-        .get("http://localhost:30735/api/Units")
-        .then((res) => setUnits(res.data));
+      axios.get("http://localhost:30735/api/Units").then((res) => setUnits(res.data));
     } catch (error) {}
   }, []);
 
@@ -44,16 +44,24 @@ const CreateService = () => {
         <div className="form-group">
           <label> Price </label>
           <input
+            required
             type="number"
+            pattern="[0-9]*"
             className="form-control"
             onChange={onChange}
             name="price"
             value={formData.price}
           />
         </div>
+        {formData.price < 0 ? (
+          <>
+            <p style={{ color: "red" }}>The price value cannot be negative.</p>
+          </>
+        ) : null}
         <div className="form-group">
           <label> Service Name </label>
           <input
+            required
             type="text"
             className="form-control"
             onChange={onChange}
@@ -61,6 +69,7 @@ const CreateService = () => {
             value={formData.serviceName}
           />
         </div>
+        <p style={{ color: "red" }}>{errorMsg}</p>
         <div className="form-group">
           <label> Choose your unit # </label>
           <Dropdown>
@@ -84,7 +93,9 @@ const CreateService = () => {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <button className="btn btn-primary" type="submit">Submit</button>
+        <button className="btn btn-primary" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );
