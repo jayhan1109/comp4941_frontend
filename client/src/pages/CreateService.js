@@ -13,6 +13,7 @@ const CreateService = () => {
   });
   const [dropDown, setDropDown] = useState("Choose unit #");
   const [errorMsg, setErrorMsg] = useState("");
+  const [isUnit, setIsUnit] = useState(null);
 
   const onChange = (e) => {
     setErrorMsg("");
@@ -24,12 +25,16 @@ const CreateService = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:30735/api/Services", formData);
-    } catch (error) {
-      console.error(error);
+    if (isUnit === null) {
+      alert("Please select unit number.");
+    } else {
+      try {
+        const res = await axios.post("http://localhost:30735/api/Services", formData);
+      } catch (error) {
+        console.error(error);
+      }
+      history.push("/service");
     }
-    history.push("/service");
   };
 
   useEffect(() => {
@@ -85,6 +90,7 @@ const CreateService = () => {
                     onClick={(e) => {
                       setDropDown(`Unit # ${unit.unitId}`);
                       setFormData({ ...formData, unitId: unit.unitId });
+                      setIsUnit(`Unit # ${unit.unitId}`);
                     }}
                   >
                     Unit # {unit.unitId}
