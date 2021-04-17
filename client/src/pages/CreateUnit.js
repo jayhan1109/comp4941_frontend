@@ -11,11 +11,14 @@ function CreateUnit() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:30735/api/Units", {
-      price: price,
-      appliance: appliance,
-      isOccupied: isOccupied,
-    });
+    await axios.post(
+      "https://comp4945projectsprint.azurewebsites.net/api/Units",
+      {
+        price: price,
+        appliance: appliance,
+        isOccupied: isOccupied,
+      }
+    );
     history.push("/unit");
   };
 
@@ -36,7 +39,9 @@ function CreateUnit() {
           />
           {price < 0 ? (
             <>
-              <p style={{ color: "red" }}>The price value cannot be negative.</p>
+              <p style={{ color: "red" }}>
+                The price value cannot be negative.
+              </p>
             </>
           ) : null}
         </div>

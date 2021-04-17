@@ -23,7 +23,10 @@ const CreateClient = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:30735/api/Clients", formData);
+      const res = await axios.post(
+        "https://comp4945projectsprint.azurewebsites.net/api/Clients",
+        formData
+      );
       console.log(res);
     } catch (error) {
       console.error(error);

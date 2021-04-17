@@ -29,7 +29,10 @@ const CreateService = () => {
       alert("Please select unit number.");
     } else {
       try {
-        const res = await axios.post("http://localhost:30735/api/Services", formData);
+        const res = await axios.post(
+          "https://comp4945projectsprint.azurewebsites.net/api/Services",
+          formData
+        );
       } catch (error) {
         console.error(error);
       }
@@ -39,7 +42,9 @@ const CreateService = () => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:30735/api/Units").then((res) => setUnits(res.data));
+      axios
+        .get("https://comp4945projectsprint.azurewebsites.net/api/Units")
+        .then((res) => setUnits(res.data));
     } catch (error) {}
   }, []);
 

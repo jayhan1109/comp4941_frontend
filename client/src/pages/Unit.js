@@ -15,29 +15,38 @@ function Unit() {
 
   useEffect(() => {
     const getUnits = async () => {
-      const { data } = await axios.get("http://localhost:30735/api/Units");
+      const { data } = await axios.get(
+        "https://comp4945projectsprint.azurewebsites.net/api/Units"
+      );
       setUnits(data);
     };
     getUnits();
   }, [units]);
 
   const removeUnit = async (unitId) => {
-    await axios.delete(`http://localhost:30735/api/Units/${unitId}`).then((response) => {
-      setUnits(
-        units.filter((val) => {
-          return val.unitId !== unitId;
-        })
-      );
-    });
+    await axios
+      .delete(
+        `https://comp4945projectsprint.azurewebsites.net/api/Units/${unitId}`
+      )
+      .then((response) => {
+        setUnits(
+          units.filter((val) => {
+            return val.unitId !== unitId;
+          })
+        );
+      });
   };
 
   const editUnit = () => {
-    axios.put(`http://localhost:30735/api/Units/${unitId}`, {
-      price: price,
-      appliance: appliance,
-      isOccupied: isOccupied,
-      unitId: unitId,
-    });
+    axios.put(
+      `https://comp4945projectsprint.azurewebsites.net/api/Units/${unitId}`,
+      {
+        price: price,
+        appliance: appliance,
+        isOccupied: isOccupied,
+        unitId: unitId,
+      }
+    );
     handleClose();
   };
 
@@ -62,7 +71,11 @@ function Unit() {
                 <td>{unit.price}</td>
                 <td>{unit.appliance === false ? <p>No</p> : <p>Yes</p>}</td>
                 <td>{unit.isOccupied === false ? <p>No</p> : <p>Yes</p>}</td>
-                <Button className="mt-2" variant="light" onClick={() => removeUnit(unit.unitId)}>
+                <Button
+                  className="mt-2"
+                  variant="light"
+                  onClick={() => removeUnit(unit.unitId)}
+                >
                   Delete
                 </Button>
                 <Button
@@ -98,7 +111,9 @@ function Unit() {
                 />
                 {price < 0 ? (
                   <>
-                    <p style={{ color: "red" }}>The price value cannot be negative.</p>
+                    <p style={{ color: "red" }}>
+                      The price value cannot be negative.
+                    </p>
                   </>
                 ) : null}
               </div>

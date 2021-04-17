@@ -9,14 +9,20 @@ const History = () => {
 
   useEffect(() => {
     const getHistory = async () => {
-      const { data } = await axios.get("http://localhost:30735/api/Histories");
+      const { data } = await axios.get(
+        "https://comp4945projectsprint.azurewebsites.net/api/Histories"
+      );
       setHistories(data);
       console.log(data);
     };
     getHistory();
-    axios.get('http://localhost:30735/api/HistoryServices').then((res) => {
-      setHistoryServices(res.data);
-    })
+    axios
+      .get(
+        "https://comp4945projectsprint.azurewebsites.net/api/HistoryServices"
+      )
+      .then((res) => {
+        setHistoryServices(res.data);
+      });
   }, []);
   return (
     <>
@@ -41,8 +47,14 @@ const History = () => {
                 <td>{history.historyId}</td>
                 <td>{history.unitId}</td>
                 <td>{history.clientId}</td>
-                <td>{historyServices && 
-                  historyServices.filter(item => item.historyId === history.historyId).map(historyService => (<div>{historyService.serviceName}</div>))}</td>
+                <td>
+                  {historyServices &&
+                    historyServices
+                      .filter((item) => item.historyId === history.historyId)
+                      .map((historyService) => (
+                        <div>{historyService.serviceName}</div>
+                      ))}
+                </td>
                 <td>{moment(history.startDate).format("MMMM Do , YYYY")}</td>
                 <td>{moment(history.endDate).format("MMMM Do , YYYY")}</td>
                 <td>{history.totalPrice}</td>

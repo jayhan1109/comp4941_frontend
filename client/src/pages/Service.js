@@ -7,7 +7,9 @@ const Service = () => {
 
   useEffect(() => {
     const getService = async () => {
-      const { data } = await axios.get("http://localhost:30735/api/Services");
+      const { data } = await axios.get(
+        "https://comp4945projectsprint.azurewebsites.net/api/Services"
+      );
       setService(data);
       console.log(data);
     };

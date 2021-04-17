@@ -14,14 +14,18 @@ const Client = () => {
 
   useEffect(() => {
     const getClients = async () => {
-      const { data } = await axios.get("http://localhost:30735/api/Clients");
+      const { data } = await axios.get(
+        "https://comp4945projectsprint.azurewebsites.net/api/Clients"
+      );
       setClients(data);
     };
     getClients();
-  }, [clients]);
+  }, []);
 
   const onClick = (id) => {
-    axios.delete(`http://localhost:30735/api/Clients/${id}`);
+    axios.delete(
+      `https://comp4945projectsprint.azurewebsites.net/api/Clients/${id}`
+    );
   };
 
   const onChange = (e) => {
@@ -35,11 +39,18 @@ const Client = () => {
       setLastNameErrorMsg("Name cannot be empty.");
     }
   };
-  const [formData, setFormData] = useState({ firstName: "", lastName: "", clientId: "" });
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    clientId: "",
+  });
 
   const onEdit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:30735/api/Clients/${formData.clientId}`, formData);
+    axios.put(
+      `https://comp4945projectsprint.azurewebsites.net/api/Clients/${formData.clientId}`,
+      formData
+    );
     handleClose();
   };
 
